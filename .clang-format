@@ -1,0 +1,21 @@
+﻿---
+BasedOnStyle: Microsoft
+AccessModifierOffset: -4
+AlignConsecutiveMacros: 'true'
+ColumnLimit: 120
+AlignConsecutiveDeclarations: true
+AlignEscapedNewlines: Left
+AlignTrailingComments: 'true'
+AllowAllConstructorInitializersOnNextLine: 'true'
+AllowAllParametersOfDeclarationOnNextLine: 'true'
+AllowShortBlocksOnASingleLine: 'false'
+AllowShortCaseLabelsOnASingleLine: 'false'
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: None
+AllowShortLoopsOnASingleLine: 'true'
+AlwaysBreakBeforeMultilineStrings: 'false'
+BinPackParameters: 'false'
+BreakInheritanceList: AfterColon
+PointerAlignment: Left
+...
