@@ -1,4 +1,5 @@
 ﻿#include "ShaderProgram.h"
+#include "Debug.h"
 
 ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragmentShaderFilePath)
 {
@@ -42,10 +43,66 @@ ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragm
     glDeleteShader(fragmentShader);
 }
 
+ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragmentShaderFilePath, const char* geometryShaderFilePath)
+{
+    // GET FILE CONTENTS
+    const std::string vertexShaderString = GetFileContents(vertexShaderFilePath);
+    const std::string fragmentShaderString = GetFileContents(fragmentShaderFilePath);
+    const std::string geometryShaderString = GetFileContents(geometryShaderFilePath);
+
+    const char* vertexShaderCode = vertexShaderString.c_str();
+    const char* fragmentShaderCode = fragmentShaderString.c_str();
+    const char* geometryShaderCode = geometryShaderString.c_str();
+
+    // CREATE THE SHADERS
+    const unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    const unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    const unsigned int geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
+
+    // PUSH CODE INTO THE CREATED SHADERS
+    glShaderSource(vertexShader, 1, &vertexShaderCode, NULL);
+    glShaderSource(fragmentShader, 1, &fragmentShaderCode, NULL);
+    glShaderSource(geometryShader, 1, &geometryShaderCode, NULL);
+
+    // COMPILE SHADERS
+    glCompileShader(vertexShader);
+    glCompileShader(fragmentShader);
+    glCompileShader(geometryShader);
+
+    // ERROR TESTING COMPILATION
+    CompileErrors(vertexShader, "VERTEX");
+    CompileErrors(fragmentShader, "FRAGMENT");
+    CompileErrors(geometryShader, "GEOMETRY");
+
+    // CREATE SHADER PROGRAM
+    m_Id = glCreateProgram();
+
+    // ATTACH SHADERS
+    glAttachShader(m_Id, vertexShader);
+    glAttachShader(m_Id, fragmentShader);
+    glAttachShader(m_Id, geometryShader);
+
+    // LINKING
+    glLinkProgram(m_Id);
+
+    // ERROR TESTING SHADER LINKING
+    CompileErrors(m_Id, "LINKING");
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+    glDeleteShader(geometryShader);
+}
+
 void ShaderProgram::SetVector4f(const char* name, const glm::vec4& value) const
 {
     const int location = glGetUniformLocation(m_Id, name);
     glUniform4f(location, value.x, value.y, value.z, value.w);
+}
+
+void ShaderProgram::SetVector3f(const char* name, const glm::vec3& value) const
+{
+    const int location = glGetUniformLocation(m_Id, name);
+    glUniform3f(location, value.x, value.y, value.z);
 }
 
 void ShaderProgram::Set1i(const char* name, int value) const
@@ -106,7 +163,7 @@ void ShaderProgram::Activate() const
     glUseProgram(m_Id);
 }
 
-void ShaderProgram::SetMatrix4f(const char* name, const unsigned int& count, const bool& transpose, const glm::mat4& value) const
+void ShaderProgram::SetMatrix4f(const char* name, const glm::mat4& value, const unsigned int& count, const bool& transpose) const
 {
 	const int location = glGetUniformLocation(m_Id, name);
     glUniformMatrix4fv(location, count, transpose, glm::value_ptr(value));

@@ -16,7 +16,7 @@ make clean
 make
 if [ $? -eq 0 ]; then
   echo "Build successful"
-  build/./OpenGLExample
+  build/./Cheltoni
 else
   echo "Build failed"
 fi

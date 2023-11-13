@@ -1,7 +1,7 @@
 # Copyright (C) 2018 Tomasz Gałaj
 
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
-project(OpenGLExample)
+project(Cheltoni)
 
 # Add .lib files
 link_directories(${CMAKE_SOURCE_DIR}/lib)
