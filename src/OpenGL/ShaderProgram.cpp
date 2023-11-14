@@ -41,6 +41,8 @@ ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragm
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+
+    std::cout << "Compiling ShaderProgram";
 }
 
 ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragmentShaderFilePath, const char* geometryShaderFilePath)
@@ -107,6 +109,7 @@ void ShaderProgram::SetVector3f(const char* name, const glm::vec3& value) const
 
 void ShaderProgram::Set1i(const char* name, int value) const
 {
+    std::cout <<"Setting 1i";
     const int location = glGetUniformLocation(m_Id, name);
     if (location == -1)
         std::cout << "ERROR NO UNIFORM WITH NAME " << name << std::endl;

@@ -45,6 +45,7 @@ Texture::Texture(const std::string &path, const bool &alpha) : m_FilePath(path),
 
 Texture::~Texture()
 {
+    std::cout << "Destroying texture";
     GLCall(glDeleteTextures(1, &m_Id));
 }
 
