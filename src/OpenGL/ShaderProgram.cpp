@@ -10,6 +10,8 @@ ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragm
     const char* vertexShaderCode = vertexShaderString.c_str();
     const char* fragmentShaderCode = fragmentShaderString.c_str();
 
+    std::cout << fragmentShaderCode << std::endl;
+
     // CREATE THE SHADERS
     const unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     const unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -38,11 +40,11 @@ ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragm
 
     // ERROR TESTING SHADER LINKING
     CompileErrors(m_Id, "LINKING");
+    std::cout << "Compiling ShaderProgram" << std::endl;
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    std::cout << "Compiling ShaderProgram";
 }
 
 ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragmentShaderFilePath, const char* geometryShaderFilePath)
@@ -109,15 +111,14 @@ void ShaderProgram::SetVector3f(const char* name, const glm::vec3& value) const
 
 void ShaderProgram::Set1i(const char* name, int value) const
 {
-    std::cout <<"Setting 1i";
-    const int location = glGetUniformLocation(m_Id, name);
-    if (location == -1)
+    if (glGetUniformLocation(m_Id, name) == -1)
         std::cout << "ERROR NO UNIFORM WITH NAME " << name << std::endl;
-    glUniform1i(location, value);
+    GLCall(glUniform1i(glGetUniformLocation(m_Id, name), value));
 }
 
 ShaderProgram::~ShaderProgram()
 {
+    std::cout << "Destroying ShaderProgram" << std::endl;
     this->Delete();
 }
 

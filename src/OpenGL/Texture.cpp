@@ -2,7 +2,7 @@
 #include "Debug.h"
 #include <iostream>
 
-Texture::Texture(const std::string &path, const bool &alpha) : m_FilePath(path), m_InternalFormat(GL_RGB),
+Texture::Texture(const std::string &path, const bool &alpha) :m_Width(0), m_Height(0), m_FilePath(path), m_InternalFormat(GL_RGB),
                                                                m_ImageFormat(GL_RGB),
                                                                m_WrapS(GL_REPEAT), m_WrapT(GL_REPEAT),
                                                                m_FilterMin(GL_LINEAR),
@@ -15,7 +15,7 @@ Texture::Texture(const std::string &path, const bool &alpha) : m_FilePath(path),
     }
 
     //STBI IMAGE LOADING
-    stbi_set_flip_vertically_on_load(true);
+    //stbi_set_flip_vertically_on_load(true);
     unsigned char *data = stbi_load(path.c_str(), &m_Width, &m_Height, &m_ColorChannel, 4);
 
     if (!data)
@@ -36,7 +36,7 @@ Texture::Texture(const std::string &path, const bool &alpha) : m_FilePath(path),
     GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_WrapS));
     GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_WrapT));
 
-    GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data));
+    GLCall( glTexImage2D(GL_TEXTURE_2D, 0, m_InternalFormat, m_Width, m_Height, 0, m_ImageFormat, GL_UNSIGNED_BYTE, data););
 
     Unbind();
 

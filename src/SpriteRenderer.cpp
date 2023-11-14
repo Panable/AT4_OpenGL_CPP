@@ -1,12 +1,14 @@
 #include "SpriteRenderer.h"
+
+#include <utility>
 #include "OpenGL/VertexArrayObject.h"
 
 #define ARRAY_LEN(xs) sizeof(xs)/sizeof(xs[0])
 
-SpriteRenderer::SpriteRenderer(ShaderProgram &shader)
+SpriteRenderer::SpriteRenderer(std::shared_ptr<ShaderProgram> shader)
         : m_Shader(shader)
 {
-
+    this->InitRenderData();
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -14,9 +16,9 @@ SpriteRenderer::~SpriteRenderer()
 
 }
 
-void SpriteRenderer::DrawSprite(Texture &texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color)
+void SpriteRenderer::DrawSprite(const std::shared_ptr<Texture>& texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color)
 {
-    m_Shader.Activate();
+    m_Shader->Activate();
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));
 
@@ -26,33 +28,36 @@ void SpriteRenderer::DrawSprite(Texture &texture, glm::vec2 position, glm::vec2 
 
     model = glm::scale(model, glm::vec3(size, 1.0f));
 
-    m_Shader.SetMatrix4f("model", model);
-    m_Shader.SetVector3f("SpriteColor", color);
+    m_Shader->SetMatrix4f("model", model);
+    m_Shader->SetVector3f("spriteColor", color);
 
-    texture.Bind();
+    texture->Bind(0);
     m_QuadVAO.Bind();
     GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
-    glBindVertexArray(0);
+    m_QuadVAO.Unbind();
 }
 
 void SpriteRenderer::InitRenderData()
 {
     m_QuadVAO.Bind();
 
+    std::cout << m_QuadVAO.m_Id << std::endl;
+
     float vertices[] = {
-            //pos        |    //tex
+            // pos      // tex
             0.0f, 1.0f, 0.0f, 1.0f,
             1.0f, 0.0f, 1.0f, 0.0f,
             0.0f, 0.0f, 0.0f, 0.0f,
 
             0.0f, 1.0f, 0.0f, 1.0f,
             1.0f, 1.0f, 1.0f, 1.0f,
-            1.0f, 0.0f, 1.0f, 0.0f,
+            1.0f, 0.0f, 1.0f, 0.0f
     };
 
-    VertexBufferObject VBO(vertices, ARRAY_LEN(vertices));
-    m_QuadVAO.LinkAttrib(VBO, 0, 2, GL_FLOAT, 4 * sizeof(float), (void *) 0);
+    VertexBufferObject VBO(vertices, sizeof(vertices));
+    m_QuadVAO.LinkAttrib(VBO, 0, 4, GL_FLOAT, 4 * sizeof(float), (void*) 0);
     m_QuadVAO.Unbind();
     VBO.Unbind();
 }
+
 
