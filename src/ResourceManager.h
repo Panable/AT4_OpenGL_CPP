@@ -26,7 +26,7 @@ public:
      * @param name name of the shader
      * @return ShaderProgram object
      */
-    static ShaderProgram
+    static ShaderProgram &
     LoadShader(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile, const std::string &name);
 
     /**
@@ -34,7 +34,7 @@ public:
      * @param name Name of the shader
      * @return ShaderProgram object
      */
-    static ShaderProgram GetShader(std::string name);
+    static ShaderProgram & GetShader(std::string name);
 
     /**
      * Loads and generates a texture from disk
@@ -43,14 +43,14 @@ public:
      * @param name The name of the image to store
      * @return
      */
-    static Texture LoadTexture(const char *file, bool alpha, std::string name);
+    static Texture & LoadTexture(const char *file, bool alpha, std::string name);
 
     /**
      * Get a texture by name
      * @param name Name of the texture
      * @return Texture Object
      */
-    static Texture GetTexture(std::string name);
+    static Texture & GetTexture(std::string name);
 
     /**
      * Properly de-allocates all loaded resources
