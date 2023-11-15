@@ -1,5 +1,7 @@
 #pragma once
 #include "ResourceManager.h"
+#include "GameLevel.h"
+
 enum GameState
 {
     GAME_ACTIVE,
@@ -14,9 +16,8 @@ public:
     bool m_Keys[1024];
     unsigned int m_Width, m_Height;
 
-    Game(unsigned int width, unsigned int height);
-
-    ~Game();
+    std::vector<GameLevel> m_Levels;
+    unsigned int m_Level;
 
     void Init();
 
@@ -25,4 +26,10 @@ public:
     void Update(float dt);
 
     void Render();
+
+public:
+
+    Game(unsigned int width, unsigned int height);
+
+    ~Game();
 };

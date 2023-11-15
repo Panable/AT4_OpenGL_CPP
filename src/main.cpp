@@ -32,8 +32,8 @@ void key_callback(GLFWwindow *window, int key, int scancode,
                   int mode
 );
 
-const unsigned int SCREEN_WIDTH = 1920;
-const unsigned int SCREEN_HEIGHT = 1080;
+const unsigned int SCREEN_WIDTH = 2560;
+const unsigned int SCREEN_HEIGHT = 1440;
 
 Game Cheltoni(SCREEN_WIDTH, SCREEN_HEIGHT);
 
