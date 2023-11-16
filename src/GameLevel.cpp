@@ -93,11 +93,6 @@ void GameLevel::Init(std::vector<std::vector<unsigned int>> tileData, unsigned i
                 glm::vec2 pos(unitWidth * x, unitHeight * y);
                 glm::vec2 size(unitWidth, unitHeight);
                 m_Bricks.emplace_back(pos, size, ResourceManager::GetTexture("block"), color);
-                auto bing = size.x;
-                std::cout << bing << std::endl;
-                auto bingy = size.y;
-                std::cout << bingy << std::endl;
-                std::cout << unitWidth << std::endl;
             }
         }
     }

@@ -10,8 +10,6 @@ ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragm
     const char* vertexShaderCode = vertexShaderString.c_str();
     const char* fragmentShaderCode = fragmentShaderString.c_str();
 
-    std::cout << fragmentShaderCode << std::endl;
-
     // CREATE THE SHADERS
     const unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     const unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -40,7 +38,6 @@ ShaderProgram::ShaderProgram(const char* vertexShaderFilePath, const char* fragm
 
     // ERROR TESTING SHADER LINKING
     CompileErrors(m_Id, "LINKING");
-    std::cout << "Compiling ShaderProgram" << std::endl;
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);

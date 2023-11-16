@@ -41,8 +41,6 @@ void SpriteRenderer::InitRenderData()
 {
     m_QuadVAO.Bind();
 
-    std::cout << m_QuadVAO.m_Id << std::endl;
-
     float vertices[] = {
             // pos      // tex
             0.0f, 1.0f, 0.0f, 1.0f,

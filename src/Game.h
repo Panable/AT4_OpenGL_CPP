@@ -12,12 +12,15 @@ enum GameState
 class Game
 {
 public:
+    bool m_IsInitialized;
     GameState m_State;
     bool m_Keys[1024];
     unsigned int m_Width, m_Height;
 
     std::vector<GameLevel> m_Levels;
     unsigned int m_Level;
+
+    void SetPlayer(const float& x, const float& y);
 
     void Init();
 
@@ -32,4 +35,6 @@ public:
     Game(unsigned int width, unsigned int height);
 
     ~Game();
+
+    std::string GetCoordinates();
 };
