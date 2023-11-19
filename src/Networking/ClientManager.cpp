@@ -1,6 +1,9 @@
 #include "ClientManager.h"
 #include "Client.h"
 #include "Program.h"
+#include <csignal>
+#include <unistd.h>
+
 
 SteamNetworkingMicroseconds g_logTimeZero;
 
@@ -9,13 +12,20 @@ SteamNetworkingMicroseconds g_logTimeZero;
         std::cout << "[NETWORK ERROR] " << message << std::endl; \
     } while (false)
 
-void Networking::Init()
+void Networking::SignalHandler(int signum)
 {
-
+    kill( getpid(), SIGKILL );
 }
 
 void Networking::Run(Game& game)
 {
+
+    //Register Signal
+    signal(SIGUSR1, SignalHandler);
+    pid_t myPID = getpid();
+    std::cout << "My Process ID (PID): " << myPID << std::endl;
+
+
     SteamNetworkingIPAddr addrServer;
     addrServer.Clear();
 

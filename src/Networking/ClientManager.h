@@ -1,4 +1,5 @@
 #pragma once
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -33,14 +34,16 @@
 namespace Networking
 {
     static const uint16 DEFAULT_SERVER_PORT = 27020;
-    static const char* IP_ADDR = "127.0.0.1";
+    static const char* IP_ADDR = "139.84.194.197";
 
     static void DebugOutput(ESteamNetworkingSocketsDebugOutputType eType, const char* pszMsg);
+
     void NukeProcess(int rc);
+
     /**
      * Run/Initialize the client.
      */
     void Run(Game& game);
 
-    void Init();
+    void SignalHandler(int signum);
 }
