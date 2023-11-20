@@ -44,7 +44,7 @@ namespace Program
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         // Launch the client asynchronously
-        std::future<void> clientFuture = std::async(std::launch::async, [](Game& game) { Networking::Run(game); }, std::ref(Cheltoni));
+        //std::future<void> clientFuture = std::async(std::launch::async, [](Game& game) { Networking::Run(game); }, std::ref(Cheltoni));
         Cheltoni.Init();
 
 
@@ -67,7 +67,7 @@ namespace Program
             glfwSwapBuffers(window);
         }
         ResourceManager::Clear();
-        clientFuture.get();
+        //clientFuture.get();
         glfwTerminate();
         return 0;
     }

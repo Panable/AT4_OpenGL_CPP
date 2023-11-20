@@ -7,7 +7,7 @@ const glm::vec2 PLAYER_SIZE(100.0f, 20.0f);
 const float PLAYER_VELOCITY(500.0f);
 
 GameObject* player;
-GameObject* player2;
+//GameObject* player2;
 
 Game::Game(unsigned int width, unsigned int height)
         : m_IsInitialized(false), m_State(GAME_ACTIVE), m_Keys(), m_Width(width), m_Height(height)
@@ -47,7 +47,7 @@ void Game::Init()
             m_Height - PLAYER_SIZE.y
             );
     player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("paddle"), glm::vec3(1.0f));
-    player2 = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("paddle"), glm::vec3(1.0f));
+    //player2 = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("paddle"), glm::vec3(1.0f));
 
     //Load Level
     GameLevel one;
@@ -95,11 +95,11 @@ void Game::Render()
 
     m_Levels[m_Level].Draw(*Renderer);
     player->Draw(*Renderer);
-    player2->Draw(*Renderer);
+    //player2->Draw(*Renderer);
 }
 
 void Game::SetPlayer(const float& x, const float& y)
 {
-    player2->m_Position.x = x;
-    player2->m_Position.y = y;
+    //player2->m_Position.x = x;
+   // player2->m_Position.y = y;
 }
