@@ -16,7 +16,7 @@ public:
     glm::vec2 m_Position, m_Size, m_Velocity;
     glm::vec3 m_Color;
     float m_Rotation;
-    float m_IsSolid;
+    bool m_IsSolid;
     bool m_Destroyed;
 
     std::shared_ptr<Texture> m_Sprite;

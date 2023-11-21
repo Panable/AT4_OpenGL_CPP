@@ -1,6 +1,7 @@
 #pragma once
 #include "ResourceManager.h"
 #include "GameLevel.h"
+#include "BallObject.h"
 
 enum GameState
 {
@@ -37,4 +38,11 @@ public:
     ~Game();
 
     std::string GetCoordinates();
+
+private:
+    void DoCollisions();
+
+    static bool CheckCollision(BallObject& one, GameObject& two);
+
+    static float Clamp(float value, float min, float max);
 };

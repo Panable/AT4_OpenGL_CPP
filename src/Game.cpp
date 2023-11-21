@@ -7,8 +7,9 @@
 //Constants
 const glm::vec2 PLAYER_SIZE(100.0f, 20.0f);
 const float PLAYER_VELOCITY(500.0f);
-const float BALL_RADIUS = 12.5f;
-const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
+const float BALL_RADIUS = 15.5f;
+const float BALL_VELOCITY_SCALAR = 3.0f;
+const glm::vec2 INITIAL_BALL_VELOCITY(100.0f * BALL_VELOCITY_SCALAR, -350.0f * BALL_VELOCITY_SCALAR);
 
 GameObject* player;
 BallObject* Ball;
@@ -108,7 +109,9 @@ void Game::ProcessInput(float dt)
 
 void Game::Update(float dt)
 {
+    if (!m_IsInitialized) return;
     Ball->Move(dt, m_Width);
+    DoCollisions();
 }
 
 void Game::Render()
@@ -126,4 +129,42 @@ void Game::SetPlayer(const float& x, const float& y)
 {
     //player2->m_Position.x = x;
    // player2->m_Position.y = y;
+}
+
+void Game::DoCollisions()
+{
+    for (GameObject& box : m_Levels[m_Level].m_Bricks)
+    {
+        if (box.m_Destroyed && !box.m_IsSolid) continue;
+
+        if (CheckCollision(*Ball, box))
+        {
+            box.m_Destroyed = true;
+        }
+    }
+}
+
+
+float Game::Clamp(float value, float min, float max) {
+    return std::max(min, std::min(max, value));
+}
+
+bool Game::CheckCollision(BallObject& one, GameObject& two)
+{
+    // get center point circle first
+    glm::vec2 center(one.m_Position + one.m_Radius);
+    // calculate AABB info (center, half-extents)
+    glm::vec2 aabb_half_extents(two.m_Size.x / 2.0f, two.m_Size.y / 2.0f);
+    glm::vec2 aabb_center(
+            two.m_Position.x + aabb_half_extents.x,
+            two.m_Position.y + aabb_half_extents.y
+    );
+    // get difference vector between both centers
+    glm::vec2 difference = center - aabb_center;
+    glm::vec2 clamped = glm::clamp(difference, -aabb_half_extents, aabb_half_extents);
+    // add clamped value to AABB_center and we get the value of box closest to circle
+    glm::vec2 closest = aabb_center + clamped;
+    // retrieve vector between center circle and closest point AABB and check if length <= radius
+    difference = closest - center;
+    return glm::length(difference) < one.m_Radius;
 }
